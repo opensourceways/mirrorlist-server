@@ -1,5 +1,7 @@
 #!/bin/sh
 
+cd $(dirname $0)
+
 cfg=$1
 
 ./generate-mirrorlist-cache -c $cfg -o ./config/mirrorlist_cache.proto
