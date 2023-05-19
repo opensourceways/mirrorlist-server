@@ -1,15 +1,78 @@
-#!/bin/sh
+#!/usr/bin/bash
+
+set -e
 
 cd $(dirname $0)
 
 cfg=$1
+proto=./config/mirrorlist_cache.proto
 
-./generate-mirrorlist-cache -c $cfg -o ./config/mirrorlist_cache.proto
+gen_proto() {
+    ./generate-mirrorlist-cache -c $cfg -o $proto
+}
 
-./mirrorlist-server --listen 0.0.0.0 -c ./config/mirrorlist_cache.proto -g ./config/global_netblocks.txt --log ./mirrorlist-server.log --cccsv ./config/country_continent.csv --geoip ./config/GeoLite2-Country.mmdb
+proto_checksum() {
+    md5sum -z $proto | awk '{print $1}'
+}
 
-# even the service above is killed manually, then we can start it again but will not kill the container
+process_num() {
+    ps -ef | grep "mirrorlist-server --listen 0.0.0.0" | grep -v grep | awk '{print $2}'
+}
+
+log() {
+    echo "$(date), $1"
+}
+
+gen_proto
+
+checksum=$(proto_checksum)
+
+set +e
+
 while true
 do
-    sleep 1
+    echo "start server!!!"
+
+    ./mirrorlist-server --listen 0.0.0.0 -c ./config/mirrorlist_cache.proto -g ./config/global_netblocks.txt --log ./mirrorlist-server.log --cccsv ./config/country_continent.csv --geoip ./config/GeoLite2-Country.mmdb &
+
+    sleep 5
+
+    pn=$(process_num)
+    test -z "$pn" && continue
+
+    sleep 3600
+
+    while true
+    do
+        gen_proto
+
+        if [ $? -eq 0 ]; then
+            v=$(proto_checksum)
+
+            log "check checksum, old=$checksum, new=$v"
+
+            if [ -n "$v" -a "$v" != "$checksum" ]; then
+                log "save new checksum"
+
+                checksum=v
+                break
+            fi
+        else
+            log "gen proto failed"
+        fi
+
+        sleep 60
+    done
+
+    while true
+    do
+        pn=$(process_num)
+        test -z "$pn" && break
+
+        kill -9 $pn
+
+        log "kill server:$pn"
+
+        sleep 1
+    done
 done
