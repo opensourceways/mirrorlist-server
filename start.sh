@@ -27,11 +27,13 @@ gen_proto
 
 checksum=$(proto_checksum)
 
+log "checksum = $checksum"
+
 set +e
 
 while true
 do
-    echo "start server!!!"
+    log "start server!!!"
 
     ./mirrorlist-server --listen 0.0.0.0 -c ./config/mirrorlist_cache.proto -g ./config/global_netblocks.txt --log ./mirrorlist-server.log --cccsv ./config/country_continent.csv --geoip ./config/GeoLite2-Country.mmdb &
 
@@ -71,7 +73,7 @@ do
 
         kill -9 $pn
 
-        log "kill server:$pn"
+        log "kill mirrorlist-server: $pn"
 
         sleep 1
     done
