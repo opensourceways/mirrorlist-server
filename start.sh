@@ -56,7 +56,7 @@ do
             if [ -n "$v" -a "$v" != "$checksum" ]; then
                 log "save new checksum"
 
-                checksum=v
+                checksum=$v
                 break
             fi
         else
