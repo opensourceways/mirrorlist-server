@@ -719,6 +719,7 @@ fn get_mlc(
             Some(i) => i,
             _ => continue,
         };
+
         let val: &mut Vec<(i64, i64)> = match host_cat_hash.get_mut(&key) {
             Some(v) => &mut *v,
             None => {
