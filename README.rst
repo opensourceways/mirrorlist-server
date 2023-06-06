@@ -52,5 +52,5 @@ using MirrorManager2 or generate-mirrorlist-cache.
 
 Repo Config
 -----------
-`中文<./repo.zh.md>`_
+`中文 <https://github.com/opensourceways/mirrorlist-server/blob/master/repo.zh.md>`_
 
