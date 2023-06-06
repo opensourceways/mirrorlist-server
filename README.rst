@@ -49,3 +49,8 @@ Usage
 
 The mirrorlist-server requires multiple input files which all can be created
 using MirrorManager2 or generate-mirrorlist-cache.
+
+Repo Config
+-----------
+`中文<./repo.zh.md>`_
+
