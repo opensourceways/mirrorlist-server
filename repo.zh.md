@@ -40,7 +40,7 @@ baseurl方式是直接指定下载软件包访问的站点，repo.openeuler.org�
 ```
 [OS]
 name=OS
-#baseurl=http://repo.openeuler.org/openEuler-23.03/OS/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-23.03/OS/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/OS&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -202,7 +202,7 @@ https://www.openeuler.org/en/mirror/list/
 
 [OS]
 name=OS
-#baseurl=http://repo.openeuler.org/openEuler-23.03/OS/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-23.03/OS/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/OS&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -211,7 +211,7 @@ gpgkey=http://repo.openeuler.org/openEuler-23.03/OS/$basearch/RPM-GPG-KEY-openEu
 
 [everything]
 name=everything
-#baseurl=http://repo.openeuler.org/openEuler-23.03/everything/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-23.03/everything/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/everything&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -220,7 +220,7 @@ gpgkey=http://repo.openeuler.org/openEuler-23.03/everything/$basearch/RPM-GPG-KE
 
 [EPOL]
 name=EPOL
-#baseurl=http://repo.openeuler.org/openEuler-23.03/EPOL/main/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-23.03/EPOL/main/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/main&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -229,7 +229,7 @@ gpgkey=http://repo.openeuler.org/openEuler-23.03/OS/$basearch/RPM-GPG-KEY-openEu
 
 [debuginfo]
 name=debuginfo
-#baseurl=http://repo.openeuler.org/openEuler-23.03/debuginfo/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-23.03/debuginfo/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/debuginfo&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -238,8 +238,8 @@ gpgkey=http://repo.openeuler.org/openEuler-23.03/debuginfo/$basearch/RPM-GPG-KEY
 
 [source]
 name=source
-#baseurl=http://repo.openeuler.org/openEuler-23.03/source/
-metalink=https://mirrors.openeuler.org/metalink?path=$releasever&arch=source
+baseurl=http://repo.openeuler.org/openEuler-23.03/source/
+metalink=https://mirrors.openeuler.org/metalink?repo=$releasever&arch=source
 metadata_expire=1h
 enabled=1
 gpgcheck=1
@@ -247,7 +247,7 @@ gpgkey=http://repo.openeuler.org/openEuler-23.03/source/RPM-GPG-KEY-openEuler
 
 [update]
 name=update
-#baseurl=http://repo.openeuler.org/openEuler-23.03/update/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-23.03/update/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/update&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -256,8 +256,8 @@ gpgkey=http://repo.openeuler.org/openEuler-23.03/OS/$basearch/RPM-GPG-KEY-openEu
 
 [update-source]
 name=update-source
-#baseurl=http://repo.openeuler.org/openEuler-23.03/update/source/
-metalink=https://mirrors.openeuler.org/metalink?path=$releasever/update&arch=source
+baseurl=http://repo.openeuler.org/openEuler-23.03/update/source/
+metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/update&arch=source
 metadata_expire=1h
 enabled=1
 gpgcheck=1
@@ -278,7 +278,7 @@ gpgkey=http://repo.openeuler.org/openEuler-23.03/source/RPM-GPG-KEY-openEuler
 
 [OS]
 name=OS
-#baseurl=http://repo.openeuler.org/openEuler-22.09/OS/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-22.09/OS/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/OS&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -287,7 +287,7 @@ gpgkey=http://repo.openeuler.org/openEuler-22.09/OS/$basearch/RPM-GPG-KEY-openEu
 
 [everything]
 name=everything
-#baseurl=http://repo.openeuler.org/openEuler-22.09/everything/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-22.09/everything/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/everything&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -296,7 +296,7 @@ gpgkey=http://repo.openeuler.org/openEuler-22.09/everything/$basearch/RPM-GPG-KE
 
 [EPOL]
 name=EPOL
-#baseurl=http://repo.openeuler.org/openEuler-22.09/EPOL/main/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-22.09/EPOL/main/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/main&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -305,7 +305,7 @@ gpgkey=http://repo.openeuler.org/openEuler-22.09/OS/$basearch/RPM-GPG-KEY-openEu
 
 [debuginfo]
 name=debuginfo
-#baseurl=http://repo.openeuler.org/openEuler-22.09/debuginfo/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-22.09/debuginfo/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/debuginfo&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -314,8 +314,8 @@ gpgkey=http://repo.openeuler.org/openEuler-22.09/debuginfo/$basearch/RPM-GPG-KEY
 
 [source]
 name=source
-#baseurl=http://repo.openeuler.org/openEuler-22.09/source/
-metalink=https://mirrors.openeuler.org/metalink?path=$releasever&arch=source
+baseurl=http://repo.openeuler.org/openEuler-22.09/source/
+metalink=https://mirrors.openeuler.org/metalink?repo=$releasever&arch=source
 metadata_expire=1h
 enabled=1
 gpgcheck=1
@@ -323,7 +323,7 @@ gpgkey=http://repo.openeuler.org/openEuler-22.09/source/RPM-GPG-KEY-openEuler
 
 [update]
 name=update
-#baseurl=http://repo.openeuler.org/openEuler-22.09/update/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-22.09/update/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/update&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -343,7 +343,7 @@ gpgkey=http://repo.openeuler.org/openEuler-22.09/OS/$basearch/RPM-GPG-KEY-openEu
 
 [OS]
 name=OS
-#baseurl=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/OS/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/OS/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/OS&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -352,7 +352,7 @@ gpgkey=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/OS/$basearch/RPM-GPG-KE
 
 [everything]
 name=everything
-#baseurl=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/everything/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/everything/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/everything&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -361,7 +361,7 @@ gpgkey=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/everything/$basearch/RP
 
 [EPOL]
 name=EPOL
-#baseurl=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/EPOL/main/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/EPOL/main/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/main&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -370,7 +370,7 @@ gpgkey=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/OS/$basearch/RPM-GPG-KE
 
 [debuginfo]
 name=debuginfo
-#baseurl=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/debuginfo/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/debuginfo/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/debuginfo&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -379,8 +379,8 @@ gpgkey=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/debuginfo/$basearch/RPM
 
 [source]
 name=source
-#baseurl=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/source/
-metalink=https://mirrors.openeuler.org/metalink?path=$releasever&arch=source
+baseurl=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/source/
+metalink=https://mirrors.openeuler.org/metalink?repo=$releasever&arch=source
 metadata_expire=1h
 enabled=1
 gpgcheck=1
@@ -388,7 +388,7 @@ gpgkey=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/source/RPM-GPG-KEY-open
 
 [update]
 name=update
-#baseurl=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/update/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/update/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/update&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -397,8 +397,8 @@ gpgkey=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/OS/$basearch/RPM-GPG-KE
 
 [update-source]
 name=update-source
-#baseurl=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/update/source/
-metalink=https://mirrors.openeuler.org/metalink?path=$releasever/update&arch=source
+baseurl=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/update/source/
+metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/update&arch=source
 metadata_expire=1h
 enabled=1
 gpgcheck=1
@@ -417,7 +417,7 @@ gpgkey=http://repo.openeuler.org/openEuler-22.03-LTS-SP1/source/RPM-GPG-KEY-open
 
 [OS]
 name=OS
-#baseurl=http://repo.openeuler.org/openEuler-22.03-LTS/OS/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-22.03-LTS/OS/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/OS&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -426,7 +426,7 @@ gpgkey=http://repo.openeuler.org/openEuler-22.03-LTS/OS/$basearch/RPM-GPG-KEY-op
 
 [everything]
 name=everything
-#baseurl=http://repo.openeuler.org/openEuler-22.03-LTS/everything/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-22.03-LTS/everything/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/everything&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -435,7 +435,7 @@ gpgkey=http://repo.openeuler.org/openEuler-22.03-LTS/everything/$basearch/RPM-GP
 
 [EPOL]
 name=EPOL
-#baseurl=http://repo.openeuler.org/openEuler-22.03-LTS/EPOL/main/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-22.03-LTS/EPOL/main/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/main&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -444,7 +444,7 @@ gpgkey=http://repo.openeuler.org/openEuler-22.03-LTS/OS/$basearch/RPM-GPG-KEY-op
 
 [debuginfo]
 name=debuginfo
-#baseurl=http://repo.openeuler.org/openEuler-22.03-LTS/debuginfo/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-22.03-LTS/debuginfo/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/debuginfo&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -453,8 +453,8 @@ gpgkey=http://repo.openeuler.org/openEuler-22.03-LTS/debuginfo/$basearch/RPM-GPG
 
 [source]
 name=source
-#baseurl=http://repo.openeuler.org/openEuler-22.03-LTS/source/
-metalink=https://mirrors.openeuler.org/metalink?path=$releasever&arch=source
+baseurl=http://repo.openeuler.org/openEuler-22.03-LTS/source/
+metalink=https://mirrors.openeuler.org/metalink?repo=$releasever&arch=source
 metadata_expire=1h
 enabled=1
 gpgcheck=1
@@ -462,7 +462,7 @@ gpgkey=http://repo.openeuler.org/openEuler-22.03-LTS/source/RPM-GPG-KEY-openEule
 
 [update]
 name=update
-#baseurl=http://repo.openeuler.org/openEuler-22.03-LTS/update/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-22.03-LTS/update/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/update&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -482,7 +482,7 @@ gpgkey=http://repo.openeuler.org/openEuler-22.03-LTS/OS/$basearch/RPM-GPG-KEY-op
 
 [OS]
 name=OS
-#baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/OS/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/OS/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/OS&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -491,7 +491,7 @@ gpgkey=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/OS/$basearch/RPM-GPG-KE
 
 [everything]
 name=everything
-#baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/everything/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/everything/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/everything&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -500,7 +500,7 @@ gpgkey=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/everything/$basearch/RP
 
 [EPOL]
 name=EPOL
-#baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/EPOL/main/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/EPOL/main/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/main&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -509,7 +509,7 @@ gpgkey=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/OS/$basearch/RPM-GPG-KE
 
 [EPOL-UPDATE]
 name=EPOL-UPDATE
-#baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/EPOL/update/main/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/EPOL/update/main/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/main&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -518,7 +518,7 @@ gpgkey=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/OS/$basearch/RPM-GPG-KE
 
 [debuginfo]
 name=debuginfo
-#baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/debuginfo/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/debuginfo/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/debuginfo&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -527,8 +527,8 @@ gpgkey=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/debuginfo/$basearch/RPM
 
 [source]
 name=source
-#baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/source/
-metalink=https://mirrors.openeuler.org/metalink?path=$releasever&arch=source
+baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/source/
+metalink=https://mirrors.openeuler.org/metalink?repo=$releasever&arch=source
 metadata_expire=1h
 enabled=1
 gpgcheck=1
@@ -536,7 +536,7 @@ gpgkey=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/source/RPM-GPG-KEY-open
 
 [update]
 name=update
-#baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/update/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/update/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/update&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -559,7 +559,7 @@ gpgkey=http://repo.openeuler.org/openEuler-20.03-LTS-SP3/OS/$basearch/RPM-GPG-KE
 
 [OS]
 name=OS
-#baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/OS/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/OS/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/OS&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -568,7 +568,7 @@ gpgkey=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/OS/$basearch/RPM-GPG-KE
 
 [everything]
 name=everything
-#baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/everything/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/everything/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/everything&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -577,7 +577,7 @@ gpgkey=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/everything/$basearch/RP
 
 [EPOL]
 name=EPOL
-#baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/EPOL/main/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/EPOL/main/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/main&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -586,7 +586,7 @@ gpgkey=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/OS/$basearch/RPM-GPG-KE
 
 [EPOL-UPDATE]
 name=EPOL-UPDATE
-#baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/EPOL/update/main/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/EPOL/update/main/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/main&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -595,7 +595,7 @@ gpgkey=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/OS/$basearch/RPM-GPG-KE
 
 [debuginfo]
 name=debuginfo
-#baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/debuginfo/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/debuginfo/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/debuginfo&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -604,8 +604,8 @@ gpgkey=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/debuginfo/$basearch/RPM
 
 [source]
 name=source
-#baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/source/
-metalink=https://mirrors.openeuler.org/metalink?path=$releasever&arch=source
+baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/source/
+metalink=https://mirrors.openeuler.org/metalink?repo=$releasever&arch=source
 metadata_expire=1h
 enabled=1
 gpgcheck=1
@@ -613,7 +613,7 @@ gpgkey=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/source/RPM-GPG-KEY-open
 
 [update]
 name=update
-#baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/update/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/update/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/update&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -635,7 +635,7 @@ gpgkey=http://repo.openeuler.org/openEuler-20.03-LTS-SP2/OS/$basearch/RPM-GPG-KE
 
 [OS]
 name=OS
-#baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP1/OS/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP1/OS/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/OS&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -644,7 +644,7 @@ gpgkey=http://repo.openeuler.org/openEuler-20.03-LTS-SP1/OS/$basearch/RPM-GPG-KE
 
 [everything]
 name=everything
-#baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP1/everything/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP1/everything/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/everything&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -653,7 +653,7 @@ gpgkey=http://repo.openeuler.org/openEuler-20.03-LTS-SP1/everything/$basearch/RP
 
 [EPOL]
 name=EPOL
-#baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP1/EPOL/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP1/EPOL/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/EPOL&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -662,7 +662,7 @@ gpgkey=http://repo.openeuler.org/openEuler-20.03-LTS-SP1/OS/$basearch/RPM-GPG-KE
 
 [debuginfo]
 name=debuginfo
-#baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP1/debuginfo/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP1/debuginfo/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/debuginfo&arch=$basearch
 metadata_expire=1h
 enabled=1
@@ -671,8 +671,8 @@ gpgkey=http://repo.openeuler.org/openEuler-20.03-LTS-SP1/debuginfo/$basearch/RPM
 
 [source]
 name=source
-#baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP1/source/
-metalink=https://mirrors.openeuler.org/metalink?path=$releasever&arch=source
+baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP1/source/
+metalink=https://mirrors.openeuler.org/metalink?repo=$releasever&arch=source
 metadata_expire=1h
 enabled=1
 gpgcheck=1
@@ -680,7 +680,7 @@ gpgkey=http://repo.openeuler.org/openEuler-20.03-LTS-SP1/source/RPM-GPG-KEY-open
 
 [update]
 name=update
-#baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP1/update/$basearch/
+baseurl=http://repo.openeuler.org/openEuler-20.03-LTS-SP1/update/$basearch/
 metalink=https://mirrors.openeuler.org/metalink?repo=$releasever/update&arch=$basearch
 metadata_expire=1h
 enabled=0
