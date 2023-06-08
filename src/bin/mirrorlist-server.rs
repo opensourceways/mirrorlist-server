@@ -48,7 +48,7 @@ fn metalink_header() -> String {
     header.push_str(" pubdate=\"");
     header.push_str(&now.format("%a, %d %b %Y %H:%M:%S GMT").to_string());
     header.push_str("\" generator=\"mirrormanager\"");
-    header.push_str(" xmlns:mm0=\"http://fedorahosted.org/mirrormanager\"");
+    header.push_str(" xmlns:mm0=\"https://mirror-manager.openeuler.org\"");
     header.push_str(">\n");
     header
 }
