@@ -786,7 +786,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
 
     // Just shuffle
     asn_results.shuffle(&mut thread_rng());
-    all_hosts.append(&mut asn_results);
+    //all_hosts.append(&mut asn_results);
 
     {
         let hbc = &p.mirrorlist.HostBandwidthCache;
