@@ -1,17 +1,28 @@
-FROM rust:1.69 as BUILDER
+FROM openeuler/openeuler:23.03 as BUILDER
+RUN dnf update -y &&\
+    dnf install -y curl gcc libpq-devel
+
+ENV RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
+ENV RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
+ENV HOME=/root
+RUN mkdir -p $HOME/.cargo/
+ADD /cargo_config $HOME/.cargo/config
+
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain 1.69 -c rust-std -c rust-src
 
 WORKDIR /src/mirrorlist-server
 
 COPY . .
 
-RUN cargo build --release
+RUN source $HOME/.cargo/env && cargo build --release
 
 FROM openeuler/openeuler:23.03
+RUN dnf update -y
 
 COPY --from=BUILDER /src/mirrorlist-server/start.sh /opt/app/start.sh
 COPY --from=BUILDER /src/mirrorlist-server/config /opt/app/config
 COPY --from=BUILDER /src/mirrorlist-server/target/release/mirrorlist-server /opt/app/mirrorlist-server
 COPY --from=BUILDER /src/mirrorlist-server/target/release/generate-mirrorlist-cache /opt/app/generate-mirrorlist-cache
-RUN yum install -y libpq-devel
+RUN dnf install -y libpq-devel
 
 ENTRYPOINT ["/opt/app/start.sh"]
