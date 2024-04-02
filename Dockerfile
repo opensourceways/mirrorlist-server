@@ -1,4 +1,4 @@
-FROM openeuler/openeuler:23.03 as BUILDER
+FROM openeuler/openeuler:22.03 as BUILDER
 RUN dnf update -y &&\
     dnf install -y curl gcc libpq-devel
 
@@ -16,7 +16,7 @@ COPY . .
 
 RUN source $HOME/.cargo/env && cargo build --release
 
-FROM openeuler/openeuler:23.03
+FROM openeuler/openeuler:22.03
 RUN dnf update -y
 
 COPY --from=BUILDER /src/mirrorlist-server/start.sh /opt/app/start.sh
