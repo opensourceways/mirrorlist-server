@@ -1,6 +1,6 @@
 FROM openeuler/openeuler:22.03 as BUILDER
 RUN dnf update -y &&\
-    dnf install -y curl gcc libpq-devel
+    dnf install -y curl gcc libpq-devel openssl-devel pkg-config postgresql-devel make cmake protobuf-compiler
 
 ENV RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 ENV RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
@@ -8,7 +8,7 @@ ENV HOME=/root
 RUN mkdir -p $HOME/.cargo/
 ADD /cargo_config $HOME/.cargo/config
 
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain 1.69 -c rust-std -c rust-src
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain 1.78.0 -c rust-std -c rust-src
 
 WORKDIR /src/mirrorlist-server
 
