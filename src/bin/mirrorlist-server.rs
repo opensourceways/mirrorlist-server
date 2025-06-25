@@ -829,6 +829,19 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
         );
     }
 
+    let mirror_list: Vec<String> = hosts_and_urls
+        .iter()
+        .flat_map(|(_, urls)| urls.iter().cloned())
+        .collect();
+
+    let mirror_log_msg = format!(
+        "CLIENT_IP: {};  RETURNED_MIRRORS: [{}]\n",
+        client_ip,
+        mirror_list.join(", ")
+    );
+    p.log_file.write_all(mirror_log_msg.as_bytes()).unwrap();
+    p.log_file.flush().unwrap();
+
     if metalink {
         let (code, doc) = do_metalink(cache, p.mirrorlist, dir, file, &hosts_and_urls);
         *response.status_mut() = code;
