@@ -8,7 +8,7 @@ ENV HOME=/root
 RUN mkdir -p $HOME/.cargo/
 ADD /cargo_config $HOME/.cargo/config
 
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain 1.69 -c rust-std -c rust-src
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain 1.78 -c rust-std -c rust-src
 
 WORKDIR /src/mirrorlist-server
 
