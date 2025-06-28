@@ -18,7 +18,7 @@ use hyper::service::{make_service_fn, service_fn};
 use hyper::{Body, Request, Response, Server, StatusCode};
 use ipnet::IpNet;
 use itertools::Itertools;
-use log::{error, info};
+use log::{error, info, debug};
 use maxminddb::{geoip2, Reader};
 use protobuf::parse_from_reader;
 use rand::distributions::Distribution;
@@ -580,7 +580,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
         }
     }
 
-    info!("mirrors_found after netblock {:#?}", mirrors_found);
+    debug!("mirrors_found after netblock {:#?}", mirrors_found);
 
     // First check if we assigned this IP to another country
     let mut client_country: String =
@@ -606,7 +606,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
         let log_msg = &format!(
             "IP: {}; DATE: {}; COUNTRY: {}; REPO: {}; ARCH: {}\n",
             client_ip,
-            &now.format("%Y-%m-%d").to_string(),
+            &now.format("%Y-%m-%d %H:%M:%S").to_string(),
             client_country,
             get_param(&query_params, "repo"),
             get_param(&query_params, "arch")
@@ -674,7 +674,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
         }
     }
 
-    info!("mirrors_found after country {:#?}", mirrors_found);
+    debug!("mirrors_found after country {:#?}", mirrors_found);
 
     let mut geoip_results: Vec<i64> = Vec::new();
     if !only_country {
@@ -694,7 +694,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
             }
         }
     }
-    info!("mirrors_found after geoip country {:#?}", mirrors_found);
+    debug!("mirrors_found after geoip country {:#?}", mirrors_found);
     if !only_country {
         // Use GeoIP location do get a country on continent list
         let ret = get_same_continent_hosts(
@@ -711,7 +711,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
             }
         }
     }
-    info!("mirrors_found after geoip continent {:#?}", mirrors_found);
+    debug!("mirrors_found after geoip continent {:#?}", mirrors_found);
 
     {
         /* mirrors_found contains the number of mirrors which are
@@ -746,7 +746,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
             trim_to_preferred_protocols(&mut hosts_and_urls, &try_protocols, try_protocols.len());
         }
         mirrors_found = hosts_and_urls.len();
-        info!(
+        debug!(
             "Number of mirrors before global with the actual content: {}",
             mirrors_found
         );
@@ -767,7 +767,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
         }
         mirrors_found += global_results.len();
     }
-    info!("Found {} possible mirrors", mirrors_found);
+    debug!("Found {} possible mirrors", mirrors_found);
 
     info!(
         "mirrorlist: {} found its best mirror from {}",
