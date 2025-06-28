@@ -36,7 +36,7 @@ while true
 do
     log "start server!!!"
 
-    ./mirrorlist-server --listen 0.0.0.0 -c ./config/mirrorlist_cache.proto -g ./config/global_netblocks.txt --log ./mirrorlist-server.log --cccsv ./config/country_continent.csv --geoip ./config/GeoLite2-Country.mmdb &
+    ./mirrorlist-server --listen 0.0.0.0 -c ./config/mirrorlist_cache.proto -g ./config/global_netblocks.txt --log ./log/mirrorlist-server.log --cccsv ./config/country_continent.csv --geoip ./config/GeoLite2-Country.mmdb &
 
     sleep 5
 

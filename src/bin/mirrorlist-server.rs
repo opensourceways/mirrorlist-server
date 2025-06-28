@@ -606,7 +606,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
         let log_msg = &format!(
             "IP: {}; DATE: {}; COUNTRY: {}; REPO: {}; ARCH: {}\n",
             client_ip,
-            &now.format("%Y-%m-%d").to_string(),
+            &now.format("%Y-%m-%d %H:%M:%S").to_string(),
             client_country,
             get_param(&query_params, "repo"),
             get_param(&query_params, "arch")
@@ -1148,7 +1148,7 @@ async fn main() {
                 record.args()
             )
         })
-    .filter_level(log::LevelFilter::Info)
+    .filter_level(log::LevelFilter::Error)
     .init();
 
     // This is the minimum number of mirrors which should be returned
