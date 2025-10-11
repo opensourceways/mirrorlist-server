@@ -605,7 +605,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
         let log_msg = &format!(
             "IP: {}; DATE: {}; COUNTRY: {}; REPO: {}; ARCH: {}\n",
             client_ip,
-            &now.format("%Y-%m-%d").to_string(),
+            &now.format("%Y-%m-%d %H:%M:%S").to_string(),
             client_country,
             get_param(&query_params, "repo"),
             get_param(&query_params, "arch")
@@ -827,6 +827,19 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
             &p.mirrorlist.Time.unwrap(),
         );
     }
+
+    let mirror_list: Vec<String> = hosts_and_urls
+        .iter()
+        .flat_map(|(_, urls)| urls.iter().cloned())
+        .collect();
+
+    let mirror_log_msg = format!(
+        "CLIENT_IP: {};  RETURNED_MIRRORS: [{}]\n",
+        client_ip,
+        mirror_list.join(", ")
+    );
+    p.log_file.write_all(mirror_log_msg.as_bytes()).unwrap();
+    p.log_file.flush().unwrap();
 
     if metalink {
         let (code, doc) = do_metalink(cache, p.mirrorlist, dir, file, &hosts_and_urls);
@@ -1116,7 +1129,26 @@ fn print_usage(program: &str, opts: Options) {
 
 #[tokio::main]
 async fn main() {
-    pretty_env_logger::init();
+    pretty_env_logger::formatted_timed_builder()
+        .format(|buf, record| {
+            use std::io::Write;
+            let timestamp = buf.timestamp_millis();
+            let level = record.level().to_string().to_uppercase();
+            let module = record.module_path().unwrap_or("unknown");
+            let line = record.line().unwrap_or(0);
+
+            writeln!(
+                buf,
+                "[{}] {} [{}:{}] {}",
+                timestamp,
+                level,
+                module,
+                line,
+                record.args()
+            )
+        })
+    .filter_level(log::LevelFilter::Error)
+    .init();
 
     // This is the minimum number of mirrors which should be returned
     let mut minimum: usize = 5;
