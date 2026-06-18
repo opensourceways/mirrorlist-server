@@ -20,10 +20,10 @@ use ipnet::IpNet;
 use itertools::Itertools;
 use log::{error, info};
 use maxminddb::{geoip2, Reader};
-use rand::distributions::Distribution;
-use rand::distributions::WeightedIndex;
+use rand::distr::weighted::WeightedIndex;
+use rand::distr::Distribution;
+use rand::rng;
 use rand::seq::SliceRandom;
-use rand::thread_rng;
 use regex::Regex;
 use std::cmp;
 use std::collections::HashMap;
@@ -216,7 +216,7 @@ fn weigthed_shuffle(hosts: &mut Vec<i64>, hbc: &[IntIntMap], results: &mut Vec<i
     for e in hosts.clone() {
         weights.push(find_in_int_int_map(hbc, e));
     }
-    let mut rng = &mut rand::thread_rng();
+    let mut rng = &mut rand::rng();
     let mut dist = WeightedIndex::new(&weights).unwrap();
     for _ in hosts.clone() {
         let host = hosts[dist.sample(&mut rng)];
@@ -588,12 +588,13 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
         // Do a GeoIP 2 lookup. In the Python implementation
         // this was more complicated as it was doing IPv6, Teredo
         // and IPv4 separately. Not necessary with GeoIP2.
-        client_country = match p.geoip.lookup::<geoip2::Country>(client_ip) {
-            Ok(c) => match c.country {
-                Some(co) => match co.iso_code {
-                    Some(iso) => iso.to_string(),
-                    _ => "N/A".to_string(),
-                },
+        client_country = match p
+            .geoip
+            .lookup(client_ip)
+            .and_then(|r| r.decode::<geoip2::Country>())
+        {
+            Ok(Some(c)) => match c.country.iso_code {
+                Some(iso) => iso.to_string(),
                 _ => "N/A".to_string(),
             },
             _ => "N/A".to_string(),
@@ -776,7 +777,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
     let mut all_hosts: Vec<i64> = Vec::new();
     // All lookups have been performed, let's shuffle those lists.
     // Shuffle and order by prefix size
-    netblock_results.shuffle(&mut thread_rng());
+    netblock_results.shuffle(&mut rng());
     netblock_results.sort_by_key(|k| IpNet::from_str(&k.0).unwrap().prefix_len());
     netblock_results.reverse();
 
@@ -785,7 +786,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
     }
 
     // Just shuffle
-    asn_results.shuffle(&mut thread_rng());
+    asn_results.shuffle(&mut rng());
     //all_hosts.append(&mut asn_results);
 
     {
