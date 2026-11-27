@@ -28,6 +28,7 @@ use indicatif::{ProgressBar, ProgressDrawTarget, ProgressStyle};
 use ipnet::{IpNet, Ipv4Net, Ipv6Net};
 use ipnetwork::IpNetwork;
 use protobuf::{CodedOutputStream, Message};
+use sha2::{Digest, Sha256, Sha512};
 use std::collections::HashMap;
 use std::convert::TryInto;
 use std::env;
@@ -36,6 +37,7 @@ use std::net::IpAddr;
 use std::process;
 use std::str::FromStr;
 use std::sync::atomic::{AtomicUsize, Ordering};
+use std::time::Duration;
 
 /* This implementation ignores 'directory_exclusive_host' as it has never been used
  * and it cannot be set from MirrorManager2.
@@ -990,6 +992,100 @@ fn get_drc(repositories: &[Repository]) -> Vec<StringBoolMap> {
     drc
 }
 
+/// Verify repomd.xml hashes against the actual mirror content.
+/// Downloads repomd.xml from repo.openeuler.org and appends a new FileDetails
+/// entry if the mirror's hash is not already in the cache. This bypasses the
+/// UMDL size+timestamp change detection which misses content-only changes.
+fn verify_repomd_from_mirror(fdcdc: &mut Vec<FileDetailsCacheDirectoryType>) {
+    let client = match reqwest::blocking::Client::builder()
+        .timeout(Duration::from_secs(10))
+        .build()
+    {
+        Ok(c) => c,
+        Err(e) => {
+            eprintln!("Mirror verification: failed to create HTTP client: {}", e);
+            return;
+        }
+    };
+
+    let mirror_base = "https://repo.openeuler.org";
+    let mut verified: i32 = 0;
+    let mut added: i32 = 0;
+    let mut errors: i32 = 0;
+
+    for dir_entry in fdcdc.iter_mut() {
+        let dirname = dir_entry.directory().to_string();
+
+        if !dirname.ends_with("/repodata") {
+            continue;
+        }
+
+        // dirname: "openeuler/openEuler-22.03-LTS-SP4/update/x86_64/repodata"
+        // → URL: "https://repo.openeuler.org/openEuler-22.03-LTS-SP4/update/x86_64/repodata/repomd.xml"
+        let path = match dirname.strip_prefix("openeuler/") {
+            Some(p) => p,
+            None => continue,
+        };
+        let url = format!("{}/{}/repomd.xml", mirror_base, path);
+
+        let resp = match client.get(&url).send() {
+            Ok(r) => r,
+            Err(_) => {
+                errors += 1;
+                continue;
+            }
+        };
+
+        if !resp.status().is_success() {
+            errors += 1;
+            continue;
+        }
+
+        let contents = match resp.bytes() {
+            Ok(b) => b,
+            Err(_) => {
+                errors += 1;
+                continue;
+            }
+        };
+
+        let mirror_sha256 = format!("{:x}", Sha256::digest(&contents));
+        let mirror_sha512 = format!("{:x}", Sha512::digest(&contents));
+        let mirror_size = contents.len() as u64;
+
+        verified += 1;
+
+        let files = &mut dir_entry.FileDetailsCacheFiles;
+        let file_idx = find_in_file_details_cache_files_cache(files, "repomd.xml");
+        if file_idx < 0 {
+            continue;
+        }
+
+        let details = &mut files[file_idx as usize].FileDetails;
+
+        let has_match = details.iter().any(|fd| {
+            fd.has_SHA256() && fd.SHA256() == mirror_sha256
+        });
+        if has_match {
+            continue;
+        }
+
+        // Mirror hash not in cache — DB/master-repo is stale. Append correct hash.
+        let mut new_entry = FileDetailsType::new();
+        new_entry.set_TimeStamp(Utc::now().timestamp() as u64);
+        new_entry.set_Size(mirror_size);
+        new_entry.set_SHA256(mirror_sha256);
+        new_entry.set_SHA512(mirror_sha512);
+        details.push(new_entry);
+        added += 1;
+    }
+
+    eprintln!(
+        "Mirror hash verification: verified={}, added={}, errors={}",
+        verified, added, errors
+    );
+}
+
 fn print_usage(program: &str, opts: Options) {
     let brief = format!("Usage: {} [options]", program);
     print!("{}", opts.usage(&brief));
@@ -1094,8 +1190,9 @@ fn main() {
 
     {
         /* MirrorListCache */
-        let (mlc, fdc) = get_mlc(connection, &hosts, &directories, &host_category_urls);
+        let (mlc, mut fdc) = get_mlc(connection, &hosts, &directories, &host_category_urls);
         mirrorlist.MirrorListCache = mlc;
+        verify_repomd_from_mirror(&mut fdc);
         mirrorlist.FileDetailsCache = fdc;
     }
 
