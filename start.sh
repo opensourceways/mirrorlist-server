@@ -43,7 +43,7 @@ do
     pn=$(process_num)
     test -z "$pn" && continue
 
-    sleep 3600
+    sleep 60
 
     while true
     do
