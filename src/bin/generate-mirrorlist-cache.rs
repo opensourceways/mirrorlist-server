@@ -1122,6 +1122,12 @@ fn main() {
 
     opts.optflagmulti("d", "debug", "enable debug");
 
+    opts.optflag(
+        "s",
+        "skip-mirror-verification",
+        "skip downloading repomd.xml from mirrors for hash verification (faster startup)",
+    );
+
     let matches = match opts.parse(&args[1..]) {
         Ok(m) => m,
         _ => {
@@ -1200,7 +1206,9 @@ fn main() {
         /* MirrorListCache */
         let (mlc, mut fdc) = get_mlc(connection, &hosts, &directories, &host_category_urls);
         mirrorlist.MirrorListCache = mlc;
-        verify_repomd_from_mirror(&mut fdc);
+        if !matches.opt_present("skip-mirror-verification") {
+            verify_repomd_from_mirror(&mut fdc);
+        }
         mirrorlist.FileDetailsCache = fdc;
     }
 
