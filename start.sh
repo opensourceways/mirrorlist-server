@@ -8,6 +8,10 @@ cd $(dirname $0)
 cfg=$1
 proto=./config/mirrorlist_cache.proto
 
+gen_proto_fast() {
+    ./generate-mirrorlist-cache -c $cfg -o $proto --skip-mirror-verification
+}
+
 gen_proto() {
     ./generate-mirrorlist-cache -c $cfg -o $proto
 }
@@ -24,7 +28,7 @@ log() {
     echo "$(date), $1"
 }
 
-gen_proto
+gen_proto_fast
 
 checksum=$(proto_checksum)
 
