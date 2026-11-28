@@ -992,13 +992,15 @@ fn get_drc(repositories: &[Repository]) -> Vec<StringBoolMap> {
     drc
 }
 
-/// Verify repomd.xml hashes against the actual mirror content.
-/// Downloads repomd.xml from repo.openeuler.org and appends a new FileDetails
-/// entry if the mirror's hash is not already in the cache. This bypasses the
-/// UMDL size+timestamp change detection which misses content-only changes.
+/// Verify repomd.xml hashes against actual mirror content from ALL mirrors.
+/// Downloads repomd.xml from each known mirror and appends a new FileDetails
+/// entry if the mirror's hash is not already in the cache. Different mirrors
+/// may serve different versions of repomd.xml due to sync lag, so all mirrors
+/// must be checked to ensure dnf can match regardless of which mirror it uses.
 fn verify_repomd_from_mirror(fdcdc: &mut Vec<FileDetailsCacheDirectoryType>) {
     let client = match reqwest::blocking::Client::builder()
         .timeout(Duration::from_secs(10))
+        .redirect(reqwest::redirect::Policy::limited(5))
         .build()
     {
         Ok(c) => c,
@@ -1008,7 +1010,11 @@ fn verify_repomd_from_mirror(fdcdc: &mut Vec<FileDetailsCacheDirectoryType>) {
         }
     };
 
-    let mirror_base = "https://repo.openeuler.org";
+    let mirrors = [
+        "https://repo.openeuler.org",
+        "https://repo.openeuler.openatom.cn",
+    ];
+
     let mut verified: i32 = 0;
     let mut added: i32 = 0;
     let mut errors: i32 = 0;
@@ -1021,63 +1027,65 @@ fn verify_repomd_from_mirror(fdcdc: &mut Vec<FileDetailsCacheDirectoryType>) {
         }
 
         // dirname: "openeuler/openEuler-22.03-LTS-SP4/update/x86_64/repodata"
-        // → URL: "https://repo.openeuler.org/openEuler-22.03-LTS-SP4/update/x86_64/repodata/repomd.xml"
+        // → path: "openEuler-22.03-LTS-SP4/update/x86_64/repodata"
+        // → URL:  "https://repo.openeuler.org/openEuler-22.03-LTS-SP4/update/x86_64/repodata/repomd.xml"
         let path = match dirname.strip_prefix("openeuler/") {
             Some(p) => p,
             None => continue,
         };
-        let url = format!("{}/{}/repomd.xml", mirror_base, path);
-
-        let resp = match client.get(&url).send() {
-            Ok(r) => r,
-            Err(_) => {
-                errors += 1;
-                continue;
-            }
-        };
-
-        if !resp.status().is_success() {
-            errors += 1;
-            continue;
-        }
-
-        let contents = match resp.bytes() {
-            Ok(b) => b,
-            Err(_) => {
-                errors += 1;
-                continue;
-            }
-        };
-
-        let mirror_sha256 = format!("{:x}", Sha256::digest(&contents));
-        let mirror_sha512 = format!("{:x}", Sha512::digest(&contents));
-        let mirror_size = contents.len() as u64;
-
-        verified += 1;
 
         let files = &mut dir_entry.FileDetailsCacheFiles;
         let file_idx = find_in_file_details_cache_files_cache(files, "repomd.xml");
         if file_idx < 0 {
             continue;
         }
-
         let details = &mut files[file_idx as usize].FileDetails;
 
-        let has_match = details.iter().any(|fd| {
-            fd.has_SHA256() && fd.SHA256() == mirror_sha256
-        });
-        if has_match {
-            continue;
-        }
+        for mirror_base in &mirrors {
+            let url = format!("{}/{}/repomd.xml", mirror_base, path);
 
-        // Mirror hash not in cache — DB/master-repo is stale. Append correct hash.
-        let mut new_entry = FileDetailsType::new();
-        new_entry.set_TimeStamp(Utc::now().timestamp() as u64);
-        new_entry.set_Size(mirror_size);
-        new_entry.set_SHA256(mirror_sha256);
-        new_entry.set_SHA512(mirror_sha512);
-        details.push(new_entry);
-        added += 1;
+            let resp = match client.get(&url).send() {
+                Ok(r) => r,
+                Err(_) => {
+                    errors += 1;
+                    continue;
+                }
+            };
+
+            if !resp.status().is_success() {
+                errors += 1;
+                continue;
+            }
+
+            let contents = match resp.bytes() {
+                Ok(b) => b,
+                Err(_) => {
+                    errors += 1;
+                    continue;
+                }
+            };
+
+            let mirror_sha256 = format!("{:x}", Sha256::digest(&contents));
+            let mirror_sha512 = format!("{:x}", Sha512::digest(&contents));
+            let mirror_size = contents.len() as u64;
+
+            verified += 1;
+
+            let has_match = details.iter().any(|fd| {
+                fd.has_SHA256() && fd.SHA256() == mirror_sha256
+            });
+            if has_match {
+                continue;
+            }
+
+            let mut new_entry = FileDetailsType::new();
+            new_entry.set_TimeStamp(Utc::now().timestamp() as u64);
+            new_entry.set_Size(mirror_size);
+            new_entry.set_SHA256(mirror_sha256);
+            new_entry.set_SHA512(mirror_sha512);
+            details.push(new_entry);
+            added += 1;
+        }
     }
 
     eprintln!(
