@@ -1012,7 +1012,7 @@ fn verify_repomd_from_mirror(fdcdc: &mut Vec<FileDetailsCacheDirectoryType>) {
 
     let mirrors = [
         "https://repo.openeuler.org",
-        "https://dl-cdn.openeuler.openatom.cn",
+        "https://repo.openeuler.openatom.cn",
     ];
 
     let mut verified: i32 = 0;
